@@ -1,0 +1,11 @@
+# --->8 denied by node_modules default ignore (use `git check-ignore -v` to confirm)
+node_modules/
+bun.lockb
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db-shm
+*.db-wal
+dist/
+*.log
+.DS_Store
