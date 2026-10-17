@@ -30,6 +30,13 @@ Paths: `src`, `tests`, `reports`, `.github`, `package.json`, `tsconfig.json`, `P
 
 None.
 
-## Rescan after this report is committed
+## Rescan of the commit that added this report
 
-Filled in by the follow-up note once HEAD includes this file. If that rescan is not CLEAN, add `file:commit:rule` rows in a new report. Do not rewrite history.
+Command: `gitleaks detect --log-opts=--all --redact`
+
+- HEAD: `91c20a0` (6 commits, including the commit that added this file)
+- Bytes scanned: about 83 KB
+- Result: **CLEAN**
+- Findings: 0
+
+This follow-up commit only records that rescan. It does not rewrite history. A scan of this follow-up commit belongs in the PR note, not in another edit of this file, unless that scan is not CLEAN.
