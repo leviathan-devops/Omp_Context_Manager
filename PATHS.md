@@ -23,3 +23,16 @@
 ## Ship docs (append-only)
 
 - MIGRATION_MANIFEST.md — this migration only; future moves append new sections
+- reports/W1-LIVE-SYSTEM.md — offline W1 scope and what still needs Leviathan or Jev
+- reports/secret-scan.md — redacted gitleaks report, report only
+- reports/w1-watched-red.txt · reports/w1-watched-green.txt — red-then-green transcripts
+
+## Offline lane (W1)
+
+| path | role |
+|---|---|
+| .github/workflows/ci.yml | GitHub-hosted `ubuntu-latest` (free runner): `bun test` + `tsc` |
+| src/net/port-guard.ts | refuse 8090/18090; mocks bind `127.0.0.1:0` |
+| tests/entry.test.ts | extension entry lists the seven action names |
+| tests/port-guard.test.ts | planted judge-port cases and the ephemeral bind |
+| bun.lock | frozen install for CI |

@@ -1,0 +1,29 @@
+bun test v1.4.3 (c6da4a4d3)
+
+tests/port-guard.test.ts:
+(pass) port guard > refuses a planted connect to 8090 before any socket [0.14ms]
+(pass) port guard > refuses a planted connect to 18090 before any socket [0.02ms]
+(pass) port guard > refuses a planted listen on 8090 before any socket [0.02ms]
+(pass) port guard > refuses a planted listen on 18090 before any socket
+(pass) port guard > does not open a live connection for any other port [0.10ms]
+(pass) port guard > mocks may bind port 0 and refuse the judge ports [0.06ms]
+(pass) port guard > scanner flags planted judge ports and ignores clean text [0.16ms]
+(pass) port guard > the guard module names both judge ports [0.08ms]
+(pass) port guard > source files other than the guard do not name judge ports [0.32ms]
+(pass) port guard > mock server binds 127.0.0.1 on an ephemeral port [1.81ms]
+
+tests/entry.test.ts:
+(pass) extension entry > lists the seven named actions [0.04ms]
+
+tests/belt.test.ts:
+(pass) belt > enumerates 7 actions [0.01ms]
+(pass) belt > refuses unknown action [0.07ms]
+(pass) belt > refuses out-of-scope arg [0.02ms]
+(pass) belt > accepts in-scope args [0.03ms]
+(pass) belt > wiring exposes 6 keys
+
+ 16 pass
+ 0 fail
+ 47 expect() calls
+Ran 16 tests across 3 files. [17.00ms]
+EXIT:0
