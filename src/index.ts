@@ -53,5 +53,8 @@ export const OMP_CM_ARGS_SHAPE: Record<string, { actions: OmpCmAction[]; describ
 };
 
 export default function ompContextManagerExtension(): { tool: string; actions: OmpCmAction[] } {
-  return { tool: OMP_CM_TOOL_NAME, actions: Object.keys(OMP_CM_ARGS_SHAPE["action"].actions) as OmpCmAction[] };
+  return {
+    tool: OMP_CM_TOOL_NAME,
+    actions: [...OMP_CM_ARGS_SHAPE.action.actions],
+  };
 }

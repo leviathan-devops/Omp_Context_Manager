@@ -1,0 +1,205 @@
+bun test v1.4.3 (c6da4a4d3)
+
+tests/port-guard.test.ts:
+41 |   try {
+42 |     run();
+43 |   } catch (error) {
+44 |     caught = error;
+45 |   }
+46 |   expect(caught).toBeInstanceOf(ForbiddenPortError);
+                      ^
+error: expect(received).toBeInstanceOf(expected)
+
+Expected constructor: [class ForbiddenPortError extends Error]
+Received value: undefined
+
+      at expectForbidden (/workspace/tests/port-guard.test.ts:46:18)
+      at <anonymous> (/workspace/tests/port-guard.test.ts:56:5)
+(fail) port guard > refuses a planted connect to 8090 before any socket [0.23ms]
+41 |   try {
+42 |     run();
+43 |   } catch (error) {
+44 |     caught = error;
+45 |   }
+46 |   expect(caught).toBeInstanceOf(ForbiddenPortError);
+                      ^
+error: expect(received).toBeInstanceOf(expected)
+
+Expected constructor: [class ForbiddenPortError extends Error]
+Received value: undefined
+
+      at expectForbidden (/workspace/tests/port-guard.test.ts:46:18)
+      at <anonymous> (/workspace/tests/port-guard.test.ts:60:5)
+(fail) port guard > refuses a planted connect to 18090 before any socket [0.04ms]
+41 |   try {
+42 |     run();
+43 |   } catch (error) {
+44 |     caught = error;
+45 |   }
+46 |   expect(caught).toBeInstanceOf(ForbiddenPortError);
+                      ^
+error: expect(received).toBeInstanceOf(expected)
+
+Expected constructor: [class ForbiddenPortError extends Error]
+Received value: undefined
+
+      at expectForbidden (/workspace/tests/port-guard.test.ts:46:18)
+      at <anonymous> (/workspace/tests/port-guard.test.ts:64:5)
+(fail) port guard > refuses a planted listen on 8090 before any socket [0.03ms]
+41 |   try {
+42 |     run();
+43 |   } catch (error) {
+44 |     caught = error;
+45 |   }
+46 |   expect(caught).toBeInstanceOf(ForbiddenPortError);
+                      ^
+error: expect(received).toBeInstanceOf(expected)
+
+Expected constructor: [class ForbiddenPortError extends Error]
+Received value: undefined
+
+      at expectForbidden (/workspace/tests/port-guard.test.ts:46:18)
+      at <anonymous> (/workspace/tests/port-guard.test.ts:68:5)
+(fail) port guard > refuses a planted listen on 18090 before any socket [0.02ms]
+67 |   test("refuses a planted listen on 18090 before any socket", () => {
+68 |     expectForbidden(() => assertNotForbiddenPort(18090, "listen"), 18090, "listen");
+69 |   });
+70 | 
+71 |   test("does not open a live connection for any other port", () => {
+72 |     expect(() => refuseLiveConnect(1)).toThrow(/offline_lane_no_live_connect/);
+                                            ^
+error: expect(received).toThrow(expected)
+
+Expected pattern: /offline_lane_no_live_connect/
+
+Received function did not throw
+Received value: undefined
+
+      at <anonymous> (/workspace/tests/port-guard.test.ts:72:40)
+(fail) port guard > does not open a live connection for any other port [0.07ms]
+71 |   test("does not open a live connection for any other port", () => {
+72 |     expect(() => refuseLiveConnect(1)).toThrow(/offline_lane_no_live_connect/);
+73 |   });
+74 | 
+75 |   test("mocks may bind port 0 and refuse the judge ports", () => {
+76 |     expect(() => assertMockBindPort(8090)).toThrow(/mock_bind_must_be_port_0/);
+                                                ^
+error: expect(received).toThrow(expected)
+
+Expected pattern: /mock_bind_must_be_port_0/
+
+Received function did not throw
+Received value: undefined
+
+      at <anonymous> (/workspace/tests/port-guard.test.ts:76:44)
+(fail) port guard > mocks may bind port 0 and refuse the judge ports [0.03ms]
+81 |   test("scanner flags planted judge ports and ignores clean text", () => {
+82 |     const planted = [
+83 |       'fetch("http://127.0.0.1:8090/health")',
+84 |       'fetch("http://127.0.0.1:18090/health")',
+85 |     ].join("\n");
+86 |     expect(scanTextForForbiddenPorts(planted).map((hit) => hit.port)).toEqual([8090, 18090]);
+                                                                           ^
+error: expect(received).toEqual(expected)
+
+- [
+-   8090,
+-   18090,
+- ]
++ []
+
+- Expected  - 4
++ Received  + 1
+
+      at <anonymous> (/workspace/tests/port-guard.test.ts:86:71)
+(fail) port guard > scanner flags planted judge ports and ignores clean text [0.16ms]
+87 |     expect(scanTextForForbiddenPorts("listen(0)\n")).toEqual([]);
+88 |   });
+89 | 
+90 |   test("the guard module names both judge ports", () => {
+91 |     const ports = scanTextForForbiddenPorts(readFileSync(GUARD_FILE, "utf8")).map((hit) => hit.port);
+92 |     expect(ports).toContain(8090);
+                       ^
+error: expect(received).toContain(expected)
+
+Expected to contain: 8090
+Received: []
+
+      at <anonymous> (/workspace/tests/port-guard.test.ts:92:19)
+(fail) port guard > the guard module names both judge ports [0.07ms]
+93 |     expect(ports).toContain(18090);
+94 |   });
+95 | 
+96 |   test("source files other than the guard do not name judge ports", () => {
+97 |     const planted = 'const target = "127.0.0.1:8090";\n';
+98 |     expect(scanTextForForbiddenPorts(planted).map((hit) => hit.port)).toEqual([8090]);
+                                                                           ^
+error: expect(received).toEqual(expected)
+
+- [
+-   8090,
+- ]
++ []
+
+- Expected  - 3
++ Received  + 1
+
+      at <anonymous> (/workspace/tests/port-guard.test.ts:98:71)
+(fail) port guard > source files other than the guard do not name judge ports [0.06ms]
+41 | export function scanTextForForbiddenPorts(_text: string): PortHit[] {
+42 |   return [];
+43 | }
+44 | 
+45 | export function bindMockServer(): Promise<{ server: Server; port: number }> {
+46 |   return Promise.reject(new Error("not_implemented"));
+                                 ^
+error: not_implemented
+      at bindMockServer (/workspace/src/net/port-guard.ts:46:29)
+      at <anonymous> (/workspace/tests/port-guard.test.ts:110:21)
+(fail) port guard > mock server binds 127.0.0.1 on an ephemeral port [0.18ms]
+
+tests/entry.test.ts:
+4 | 
+5 | describe("extension entry", () => {
+6 |   test("lists the seven named actions", () => {
+7 |     const result = ompContextManagerExtension();
+8 |     expect(result.tool).toBe("omp-context-manager");
+9 |     expect(result.actions).toEqual([...OMP_CM_ARGS_SHAPE.action.actions]);
+                               ^
+error: expect(received).toEqual(expected)
+
+  [
+-   "spawn",
+-   "recall",
+-   "deck",
+-   "seal",
+-   "status",
+-   "resume",
+-   "release",
++   "0",
++   "1",
++   "2",
++   "3",
++   "4",
++   "5",
++   "6",
+  ]
+
+- Expected  - 7
++ Received  + 7
+
+      at <anonymous> (/workspace/tests/entry.test.ts:9:28)
+(fail) extension entry > lists the seven named actions [0.13ms]
+
+tests/belt.test.ts:
+(pass) belt > enumerates 7 actions [0.02ms]
+(pass) belt > refuses unknown action [0.07ms]
+(pass) belt > refuses out-of-scope arg [0.02ms]
+(pass) belt > accepts in-scope args [0.03ms]
+(pass) belt > wiring exposes 6 keys
+
+ 5 pass
+ 11 fail
+ 18 expect() calls
+Ran 16 tests across 3 files. [9.00ms]
+EXIT:1
